@@ -86,7 +86,7 @@ class Proctype(object):
         if self.args is None:
             args = ''
         else:
-            args = to_str(self.args)
+            args = '; '.join(to_str(x) for x in self.args)
         return args
 
     def to_pg(self, syntactic_else=False):
@@ -268,7 +268,7 @@ class Sequence(list):
         else:
             return (
                 self.context + '{\n' +
-                _indent(to_str(self)) + '\n}\n')
+                '\n'.join(_indent(to_str(x)) for x in self) + '\n}\n')
 
     def __repr__(self):
         l = super(Sequence, self).__repr__()
@@ -752,8 +752,8 @@ class MessageType(Node):
     def __init__(self, values, visible=None):
         self.values = values
 
-    def __str__(self):
-        return 'mtype {{ {values} }}'.format(values=self.values)
+    def to_str(self):
+        return 'mtype = {{ {values} }}'.format(values=' , '.join(to_str(x) for x in self.values))
 
     def exe(self, t):
         t.types[self.name] = self
@@ -774,7 +774,7 @@ class Run(Node):
         self.priority = priority
 
     def __str__(self):
-        return 'run({f})'.format(f=self.func)
+        return 'run {f} ({args})'.format(f=self.func, args='' if self.args is None else ' , '.join(to_str(x) for x in self.args))
 
 
 class Inline(Node):
@@ -793,8 +793,8 @@ class Assert(Node):
     def __init__(self, expr):
         self.expr = expr
 
-    def __repr__(self):
-        return 'assert({expr})'.format(expr=repr(self.expr))
+    def __str__(self):
+        return 'assert({expr})'.format(expr=to_str(self.expr))
 
 
 class Expression(Node):
@@ -897,7 +897,7 @@ class Printf(Node):
         self.args = args
 
     def __str__(self):
-        return 'printf()'.format(s=self.s, args=self.args)
+        return 'printf({s}{args})'.format(s=self.s, args='' if self.args is None else ' , ' + ' , '.join(to_str(x) for x in self.args))
 
 
 class Operator(object):

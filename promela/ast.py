@@ -547,6 +547,7 @@ class VarDef(Node):
             default_initval = Bool('false')
         else:
             default_initval = Integer('0')
+        self.msg_types = msg_types
         self.initial_value0 = initval
         if initval is None:
             initval = Expression(default_initval)
@@ -557,11 +558,12 @@ class VarDef(Node):
         return 'VarDef({t}, {v})'.format(t=self.type, v=self.name)
 
     def to_str(self):
-        s = '{type} {varname}{len}{initval}'.format(
+        s = '{type} {varname}{len}{initval}{msg_types}'.format(
             type=self._type_str(),
             varname=self.name,
             len=' [{n}]'.format(n=self.length) if self.length and not self.msg_types else '',
-            initval=' = {i}'.format(i=self.initial_value0) if self.initial_value0 else '')
+            initval=' = {i}'.format(i=self.initial_value0) if self.initial_value0 else '',
+            msg_types=' = [{l}] of {{ {m} }}'.format(l=self.length, m=' , '.join(to_str(x) for x in self.msg_types)) if self.msg_types else '')
         return s
 
     def _type_str(self):

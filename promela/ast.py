@@ -872,13 +872,13 @@ class Assignment(Node):
 
 
 class Receive(Node):
-    def __init__(self, varref, args=None):
+    def __init__(self, varref, args):
         self.var = varref
         self.args = args
 
     def __str__(self):
         v = to_str(self.var)
-        return 'Rx({v})'.format(v=v)
+        return '{v} ? {args}'.format(v=v, args = to_str(self.args))
 
 
 class Send(Node):

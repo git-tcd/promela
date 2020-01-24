@@ -882,13 +882,13 @@ class Receive(Node):
 
 
 class Send(Node):
-    def __init__(self, varref, args=None):
-        self.varref = varref
+    def __init__(self, varref, args):
+        self.var = varref
         self.args = args
 
     def __str__(self):
         v = to_str(self.var)
-        return 'Tx({v})'.format(v=v)
+        return '{v} ! {args}'.format(v=v, args = to_str(self.args))
 
 
 class Printf(Node):

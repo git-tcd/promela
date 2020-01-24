@@ -486,7 +486,7 @@ class Parser(object):
         p[0] = self.ast.Receive(p[1], p[4])
 
     def p_statement_tx2(self, p):
-        """statement : varref TX2 margs"""
+        """statement : varref TX2 rargs"""
         p[0] = self.ast.Send(p[1], p[3])
 
     def p_statement_full_expr(self, p):
@@ -555,8 +555,8 @@ class Parser(object):
         p[0] = self.ast.Receive(p[1])
 
     def p_varref_lnot(self, p):
-        """special : varref LNOT margs"""
-        raise NotImplementedError
+        """special : varref LNOT rargs"""
+        p[0] = self.ast.Send(p[1], p[3])
 
     def p_break(self, p):
         """special : BREAK"""
@@ -800,11 +800,6 @@ class Parser(object):
     def p_args_empty(self, p):
         """args : empty"""
 
-    def p_margs(self, p):
-        """margs : arg
-                 | expr LPAREN arg RPAREN
-        """
-
     def p_arg(self, p):
         """arg : expr
                | expr COMMA arg
@@ -816,7 +811,7 @@ class Parser(object):
         """rarg : varref
                 | EVAL LPAREN expr RPAREN
         """
-        p[0] = 'rarg'
+        p[0] = p[1] # todo: support all cases
 
     def p_rargs(self, p):
         """rargs : rarg
@@ -824,6 +819,7 @@ class Parser(object):
                  | rarg LPAREN rargs RPAREN
                  | LPAREN rargs RPAREN
         """
+        p[0] = p[1] # todo: support all cases
 
     def p_proctype(self, p):
         """proctype : PROCTYPE

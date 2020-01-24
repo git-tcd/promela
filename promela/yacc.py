@@ -708,7 +708,7 @@ class Parser(object):
         warnings.warn('"{s}" not implemented'.format(s=p[1]))
 
     def p_expr_run(self, p):
-        """expr : RUN aname LPAREN args RPAREN opt_priority"""
+        """expr : RUN aname LPAREN decl0 RPAREN opt_priority"""
         p[0] = self.ast.Run(p[2], p[4], p[6])
 
     def p_expr_other_2(self, p):

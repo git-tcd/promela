@@ -892,7 +892,7 @@ class Send(Node):
 
 
 class Printf(Node):
-    def __init__(self, s, args):
+    def __init__(self, s, args=None):
         self.s = s
         self.args = args
 

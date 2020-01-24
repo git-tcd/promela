@@ -219,6 +219,21 @@ class Parser(object):
         """decl_lst : one_decl"""
         p[0] = [p[1]]
 
+    def p_decl0(self, p):
+        """decl0 : decl_lst0"""
+        p[0] = self.ast.Sequence(p[1])
+
+    def p_decl_empty0(self, p):
+        """decl0 : empty"""
+
+    def p_decl_lst_iter0(self, p):
+        """decl_lst0 : expr COMMA decl_lst0"""
+        p[0] = [p[1]] + p[3]
+
+    def p_decl_lst_end0(self, p):
+        """decl_lst0 : expr"""
+        p[0] = [p[1]]
+
     def p_one_decl_visible(self, p):
         """one_decl : vis typename var_list
                     | vis NAME var_list
@@ -537,9 +552,13 @@ class Parser(object):
         """statement : RETURN full_expr"""
         p[0] = self.ast.Return(p[2])
 
-    def p_printf(self, p):
-        """statement : PRINT LPAREN STRING prargs RPAREN"""
-        p[0] = self.ast.Printf(p[3], p[4])
+    def p_printf1(self, p):
+        """statement : PRINT LPAREN STRING RPAREN"""
+        p[0] = self.ast.Printf(p[3])
+
+    def p_printf2(self, p):
+        """statement : PRINT LPAREN STRING COMMA decl0 RPAREN"""
+        p[0] = self.ast.Printf(p[3], p[5])
 
     # yet unimplemented for statement:
         # SET_P l_par two_args r_par
@@ -789,13 +808,6 @@ class Parser(object):
     def p_args(self, p):
         """args : arg"""
         p[0] = p[1]
-
-    def p_prargs(self, p):
-        """prargs : COMMA arg"""
-        p[0] = p[2]
-
-    def p_prargs_empty(self, p):
-        """prargs : empty"""
 
     def p_args_empty(self, p):
         """args : empty"""

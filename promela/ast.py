@@ -547,6 +547,7 @@ class VarDef(Node):
             default_initval = Bool('false')
         else:
             default_initval = Integer('0')
+        self.initial_value0 = initval
         if initval is None:
             initval = Expression(default_initval)
         self.initial_value = initval
@@ -556,10 +557,11 @@ class VarDef(Node):
         return 'VarDef({t}, {v})'.format(t=self.type, v=self.name)
 
     def to_str(self):
-        s = '{type} {varname}{len}'.format(
+        s = '{type} {varname}{len}{initval}'.format(
             type=self._type_str(),
             varname=self.name,
-            len='[{n}]'.format(n=self.len) if self.len else '')
+            len='[{n}]'.format(n=self.len) if self.len else '',
+            initval=' = {i}'.format(i=self.initial_value0) if self.initial_value0 else '')
         return s
 
     def _type_str(self):

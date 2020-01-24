@@ -560,7 +560,7 @@ class VarDef(Node):
         s = '{type} {varname}{len}{initval}'.format(
             type=self._type_str(),
             varname=self.name,
-            len='[{n}]'.format(n=self.len) if self.len else '',
+            len=' [{n}]'.format(n=self.length) if self.length and not self.msg_types else '',
             initval=' = {i}'.format(i=self.initial_value0) if self.initial_value0 else '')
         return s
 

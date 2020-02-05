@@ -156,7 +156,7 @@ class Parser(object):
 
         p[0] = self.ast.Proctype(
             name, body, args=args, priority=priority,
-            provided=enabler, **inst)
+            provided=enabler, pos = p.lineno(1), **inst)
 
     # instantiator
     def p_inst(self, p):

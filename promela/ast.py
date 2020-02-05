@@ -48,7 +48,7 @@ def to_str(x):
 class Proctype(object):
     def __init__(self, name, body, args=None,
                  active=None, d_proc=False,
-                 priority=None, provided=None):
+                 priority=None, provided=None, pos=None):
         self.name = name
         self.body = body
         self.args = args
@@ -61,6 +61,7 @@ class Proctype(object):
         self.active = active
         self.priority = priority
         self.provided = provided
+        self.pos = pos
 
     def __str__(self):
         return "Proctype('{name}')".format(name=self.name)

@@ -94,7 +94,7 @@ class Parser(object):
         """Parse string of Promela code."""
         s = cpp(promela)
         program = self.parser.parse(
-            s, lexer=self.lexer.lexer, debug=self.logger)
+            s, lexer=self.lexer.lexer, debug=self.logger, tracking=True)
         return program
 
     def _iter(self, p):

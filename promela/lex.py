@@ -204,7 +204,7 @@ class Lexer(object):
 
     def t_COMMENT(self, t):
         r' /\*(.|\n)*?\*/'
-        t.lineno += t.value.count('\n')
+        t.lexer.lineno += t.value.count('\n')
 
     def t_error(self, t):
         logger.error('Illegal character "{s}"'.format(s=t.value[0]))

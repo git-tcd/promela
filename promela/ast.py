@@ -934,6 +934,14 @@ class Binary(Operator):
 class Unary(Operator):
     pass
 
+class ReceiveExpr(Node):
+    def __init__(self, varref, args):
+        self.var = varref
+        self.args = args
+
+    def __str__(self):
+        v = to_str(self.var)
+        return '({v} ? [{args}])'.format(v=v, args = to_str(self.args))
 
 class Terminal(object):
     def __init__(self, value):

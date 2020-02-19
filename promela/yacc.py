@@ -699,8 +699,7 @@ class Parser(object):
         """expr : varref RCV LBRACKET rargs RBRACKET
                 | varref R_RCV LBRACKET rargs RBRACKET
         """
-        p[0] = p[1]
-        warnings.warn('not implemented')
+        p[0] = self.ast.ReceiveExpr(p[1], p[4])
 
     def p_expr_other(self, p):
         """expr : LPAREN expr ARROW expr COLON expr RPAREN

@@ -246,14 +246,16 @@ class Program(list):
 class LTL(object):
     """Used to mark strings as LTL blocks."""
 
-    def __init__(self, formula):
+    def __init__(self, formula, name = None, pos = None):
         self.formula = formula
+        self.name = name
+        self.pos = pos
 
     def __repr__(self):
         return 'LTL({f})'.format(f=repr(self.formula))
 
     def __str__(self):
-        return 'ltl {' + str(self.formula) + '}'
+        return 'ltl ' + (self.name + ' ' if self.name else '') + '{' + str(self.formula) + '}'
 
 
 class Sequence(list):

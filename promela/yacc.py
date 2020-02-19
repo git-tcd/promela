@@ -197,9 +197,13 @@ class Parser(object):
         seq = self.ast.Sequence(p[4])
         p[0] = self.ast.TypeDef(p[2], seq)
 
-    def p_ltl(self, p):
+    def p_ltl1(self, p):
+        """ltl : LTL NAME LBRACE expr RBRACE"""
+        p[0] = self.ast.LTL(p[4], name = p[2], pos = p.lineno(1))
+
+    def p_ltl2(self, p):
         """ltl : LTL LBRACE expr RBRACE"""
-        p[0] = self.ast.LTL(p[3])
+        p[0] = self.ast.LTL(p[3], pos = p.lineno(1))
 
     # Declarations
     # ============

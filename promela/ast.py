@@ -1001,7 +1001,7 @@ class Bool(Terminal):
         return 'Bool({value})'.format(value=repr(self.value))
 
     def __str__(self):
-        return str(self.value)
+        return str('true' if self.value else 'false')
 
 
 class RemoteRef(Terminal):

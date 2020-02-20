@@ -901,7 +901,7 @@ class Parser(object):
 def cpp(s):
     """Call the C{C} preprocessor with input C{s}."""
     try:
-        p = subprocess.Popen(['cpp', '-E', '-x', 'c'],
+        p = subprocess.Popen(['cpp', '-E', '-x', 'c', '-'],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,

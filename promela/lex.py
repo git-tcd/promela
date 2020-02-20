@@ -185,7 +185,7 @@ class Lexer(object):
     t_INITIAL_ARROW = r'->'
 
     def t_PREPROC_stdin(self, t):
-        r'\# .+ "<stdin>"' # WARNING: using '\d+' instead of '.+' does not necessarily result in the same matching
+        r'\# .+ "<stdin>"[0-9 ]*' # WARNING: using '\d+' instead of '.+' does not necessarily result in the same matching
         t.lexer.lineno = int (re.search (r'\# (\d+) "<stdin>"', t.value).group (1)) - 1
         pass
 

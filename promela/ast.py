@@ -48,7 +48,7 @@ def to_str(x):
 class Proctype(object):
     def __init__(self, name, body, args=None,
                  active=None, d_proc=False,
-                 priority=None, provided=None, pos=None):
+                 priority=None, provided=None):
         self.name = name
         self.body = body
         self.args = args
@@ -61,7 +61,6 @@ class Proctype(object):
         self.active = active
         self.priority = priority
         self.provided = provided
-        self.pos = pos
 
     def __str__(self):
         return "Proctype('{name}')".format(name=self.name)
@@ -224,7 +223,7 @@ class Init(Proctype):
 
 class Program(list):
     def __str__(self):
-        return '\n'.join(to_str(x) for x in self)
+        return '\n'.join(to_str(x) for x, _ in self)
 
     def __repr__(self):
         c = super(Program, self).__repr__()
@@ -246,10 +245,9 @@ class Program(list):
 class LTL(object):
     """Used to mark strings as LTL blocks."""
 
-    def __init__(self, formula, name = None, pos = None):
+    def __init__(self, formula, name = None):
         self.formula = formula
         self.name = name
-        self.pos = pos
 
     def __repr__(self):
         return 'LTL({f})'.format(f=repr(self.formula))

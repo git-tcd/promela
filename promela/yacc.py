@@ -98,12 +98,12 @@ class Parser(object):
         return program
 
     def _iter(self, p):
-        if p[2] is not None:
+        if p[2][0] is not None:
             p[1].append(p[2])
         return p[1]
 
     def _end(self, p):
-        if p[1] is None:
+        if p[1][0] is None:
             return list()
         else:
             return [p[1]]
@@ -130,13 +130,13 @@ class Parser(object):
                 | claim
                 | ltl
         """
-        p[0] = p[1]
+        p[0] = (p[1], p.lineno(1))
 
     def p_unit_decl(self, p):
         """unit : one_decl
                 | utype
         """
-        p[0] = p[1]
+        p[0] = (p[1], p.lineno(1))
 
     def p_unit_semi(self, p):
         """unit : semi"""
@@ -156,7 +156,7 @@ class Parser(object):
 
         p[0] = self.ast.Proctype(
             name, body, args=args, priority=priority,
-            provided=enabler, pos = p.lineno(1), **inst)
+            provided=enabler, **inst)
 
     # instantiator
     def p_inst(self, p):
@@ -199,11 +199,11 @@ class Parser(object):
 
     def p_ltl1(self, p):
         """ltl : LTL NAME LBRACE expr RBRACE"""
-        p[0] = self.ast.LTL(p[4], name = p[2], pos = p.lineno(1))
+        p[0] = self.ast.LTL(p[4], name = p[2])
 
     def p_ltl2(self, p):
         """ltl : LTL LBRACE expr RBRACE"""
-        p[0] = self.ast.LTL(p[3], pos = p.lineno(1))
+        p[0] = self.ast.LTL(p[3])
 
     # Declarations
     # ============

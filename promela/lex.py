@@ -56,7 +56,7 @@ class Lexer(object):
         'return': 'RETURN',
         'run': 'RUN',
         'short': 'SHORT',
-        'skip': 'TRUE',
+        'skip': 'SKIP',
         'show': 'SHOW',
         'timeout': 'TIMEOUT',
         'typedef': 'TYPEDEF',
@@ -67,7 +67,7 @@ class Lexer(object):
         'xr': 'XR',
         'xs': 'XS',
         'W': 'WEAK_UNTIL'}
-    values = {'skip': 'true'}
+    values = {'': ''}
     delimiters = ['LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET',
                   'LBRACE', 'RBRACE', 'COMMA', 'PERIOD',
                   'SEMI', 'COLONS', 'COLON', 'ELLIPSIS']

@@ -786,10 +786,10 @@ class Parser(object):
         p[0] = p[2]
 
     def p_const(self, p):
-        """const : boolean
+        """const : SKIP
+                 | boolean
                  | number
         """
-        # lex maps `skip` to `TRUE`
         p[0] = p[1]
 
     def p_bool(self, p):

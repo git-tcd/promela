@@ -115,6 +115,10 @@ class Parser(object):
         """program : units"""
         p[0] = self.ast.Program(p[1])
 
+    def p_program_empty(self, p):
+        """program : empty"""
+        p[0] = self.ast.Program([])
+
     def p_units_iter(self, p):
         """units : units unit"""
         p[0] = self._iter(p)

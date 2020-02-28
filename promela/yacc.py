@@ -98,12 +98,12 @@ class Parser(object):
         return program
 
     def _iter(self, p):
-        if p[2][0] is not None:
+        if p[2] is not None:
             p[1].append(p[2])
         return p[1]
 
     def _end(self, p):
-        if p[1][0] is None:
+        if p[1] is None:
             return list()
         else:
             return [p[1]]

@@ -372,7 +372,7 @@ class Parser(object):
 
     def p_cmpnd_iter(self, p):
         """cmpnd : cmpnd PERIOD cmpnd %prec DOT"""
-        p[0] = self.ast.VarRef(extension=p[3], **p[1])
+        p[0] = self.ast.VarRef(extension=p[3], name = p[1].name, index = p[1].index)
 
     def p_cmpnd_end(self, p):
         """cmpnd : pfld"""

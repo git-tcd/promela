@@ -130,6 +130,7 @@ class Parser(object):
     # TODO: events, c_fcts, ns, error
     def p_unit_proc(self, p):
         """unit : proc
+                | inline
                 | init
                 | claim
                 | ltl
@@ -161,6 +162,12 @@ class Parser(object):
         p[0] = self.ast.Proctype(
             name, body, args=args, priority=priority,
             provided=enabler, **inst)
+
+    def p_inline(self, p):
+        ("""inline : INLINE NAME"""
+         """         LPAREN decl0 RPAREN"""
+         """         body
+         """)
 
     # instantiator
     def p_inst(self, p):

@@ -36,6 +36,7 @@ class Lexer(object):
         'hidden': 'HIDDEN',
         'if': 'IF',
         'init': 'INIT',
+        'inline': 'INLINE',
         'int': 'INT',
         'len': 'LEN',
         'local': 'ISLOCAL',

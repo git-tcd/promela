@@ -168,6 +168,7 @@ class Parser(object):
          """         LPAREN decl0 RPAREN"""
          """         body
          """)
+        p[0] = self.ast.InlineDef(name = p[2], decl = p[4], body = p[6])
 
     # instantiator
     def p_inst(self, p):
@@ -553,14 +554,14 @@ class Parser(object):
 
     # the stmt of line 696 in spin.y collects the inline ?
     def p_statement_call(self, p):
-        """statement : NAME LPAREN args RPAREN"""
+        """statement : NAME LPAREN decl0 RPAREN"""
         # NAME = INAME = inline
-        c = self.ast.Inline(p[1], p[3])
+        c = self.ast.InlineCall(p[1], p[3])
         p[0] = self.ast.Sequence([c])
 
     def p_statement_assgn_call(self, p):
-        """statement : varref asgn NAME LPAREN args RPAREN statement"""
-        inline = self.ast.Inline(p[3], p[5])
+        """statement : varref asgn NAME LPAREN decl0 RPAREN statement"""
+        inline = self.ast.InlineCall(p[3], p[5])
         p[0] = self.ast.Assignment(p[1], inline)
 
     def p_statement_return(self, p):
@@ -815,22 +816,6 @@ class Parser(object):
 
     # Auxiliary
     # =========
-
-    def p_two_args(self, p):
-        """two_args : expr COMMA expr"""
-
-    def p_args(self, p):
-        """args : arg"""
-        p[0] = p[1]
-
-    def p_args_empty(self, p):
-        """args : empty"""
-
-    def p_arg(self, p):
-        """arg : expr
-               | expr COMMA arg
-        """
-        p[0] = 'arg'
 
     # TODO: CONST, MINUS CONST %prec UMIN
     def p_rarg(self, p):

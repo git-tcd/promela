@@ -782,10 +782,23 @@ class Run(Node):
         return 'run {f} ({args})'.format(f=self.func, args='' if self.args is None else ' , '.join(to_str(x) for x in self.args))
 
 
-class Inline(Node):
+class InlineDef(Node):
+    def __init__(self, name, decl, body):
+        self.name = name
+        self.decl = decl
+        self.body = body
+
+    def __str__(self):
+        return 'inline {name} ({decl}) {{ {body} }}'.format(name = self.name, decl = ', '.join(to_str(x) for x in self.decl) if self.decl else '', body = to_str(self.body))
+
+
+class InlineCall(Node):
     def __init__(self, name, args):
         self.name = name
         self.args = args
+
+    def __str__(self):
+        return '{name} ({args})'.format(name = self.name, args = ', '.join(to_str(x) for x in self.args) if self.args else '')
 
 
 class Call(Node):

@@ -542,8 +542,7 @@ class VarDef(Node):
             assert isinstance(l, int), l
         self.length = l
         self.visible = visible
-        if bitwidth is not None:
-            self.bitwidth = int(bitwidth.value)
+        self.bitwidth = int(bitwidth.value) if bitwidth else None
         if vartype == 'bool':
             default_initval = Bool('false')
         else:
@@ -559,9 +558,10 @@ class VarDef(Node):
         return 'VarDef({t}, {v})'.format(t=self.type, v=self.name)
 
     def to_str(self):
-        s = '{type} {varname}{len}{initval}{msg_types}'.format(
+        s = '{type} {varname}{bitwidth}{len}{initval}{msg_types}'.format(
             type=self._type_str(),
             varname=self.name,
+            bitwidth=' : {n}'.format(n =self.bitwidth) if self.bitwidth else '',
             len=' [{n}]'.format(n=self.length) if self.length and not self.msg_types else '',
             initval=' = {i}'.format(i=self.initial_value0) if self.initial_value0 else '',
             msg_types=' = [{l}] of {{ {m} }}'.format(l=self.length, m=' , '.join(to_str(x) for x in self.msg_types)) if self.msg_types else '')
@@ -746,8 +746,8 @@ class TypeDef(Node):
         self.decls = decls
 
     def __str__(self):
-        return 'typedef {name} {decls}'.format(
-            name=self.name, decls=to_str(self.decls))
+        return 'typedef {name} {{ {decls} }}'.format(
+            name=self.name, decls='; '.join(to_str(x) for x in self.decls))
 
     def exe(self, t):
         t.types[self.name] = self
@@ -980,7 +980,7 @@ class VarRef(Terminal):
         return '{name}{index}{ext}'.format(
             name=self.name,
             index=i,
-            ext='' if self.extension is None else self.extension)
+            ext=('.' + to_str(self.extension)) if self.extension else '' )
 
 
 class Integer(Terminal):

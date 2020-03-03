@@ -498,7 +498,7 @@ class Parser(object):
 
     def p_statement_assert(self, p):
         """statement : ASSERT full_expr"""
-        p[0] = self.ast.Assert(p[2])
+        p[0] = self.ast.Assert(p[2], pos = p.lineno(1))
 
     def p_statement_fifo_receive(self, p):
         """statement : varref RCV rargs"""

@@ -808,8 +808,9 @@ class Call(Node):
 
 
 class Assert(Node):
-    def __init__(self, expr):
+    def __init__(self, expr, pos = None):
         self.expr = expr
+        self.pos = pos
 
     def __str__(self):
         return 'assert({expr})'.format(expr=to_str(self.expr))

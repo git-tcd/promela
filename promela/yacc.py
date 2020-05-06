@@ -15,6 +15,7 @@ import os
 import subprocess
 import warnings
 import ply.yacc
+from sys import platform as _platform
 # inline
 #
 # import promela.ast as promela_ast
@@ -897,7 +898,11 @@ class Parser(object):
 def cpp(s):
     """Call the C{C} preprocessor with input C{s}."""
     try:
-        p = subprocess.Popen(['cpp', '-E', '-x', 'c', '-'],
+        if _platform == "darwin":
+            cppprog = 'clang'
+        else:
+            cppprog = 'cpp'
+        p = subprocess.Popen([cppprog, '-E', '-x', 'c', '-'],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,

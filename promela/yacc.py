@@ -166,7 +166,7 @@ class Parser(object):
 
     def p_inline(self, p):
         ("""inline : INLINE NAME"""
-         """         LPAREN decl0 RPAREN"""
+         """         LPAREN var_list0 RPAREN"""
          """         body
          """)
         p[0] = self.ast.InlineDef(name = p[2], decl = p[4], body = p[6])
@@ -302,7 +302,19 @@ class Parser(object):
         """var_list : ivar"""
         p[0] = [p[1]]
 
+    def p_var_list0_iter(self, p):
+        """var_list0 : ivar0 COMMA var_list0"""
+        p[0] = [p[1]] + p[3]
+
+    def p_var_list0_end(self, p):
+        """var_list0 : ivar0"""
+        p[0] = [p[1]]
+
     # TODO: vardcl asgn LBRACE c_list RBRACE
+
+    def p_ivar0(self, p):
+        """ivar0 : NAME"""
+        p[0] = p[1]
 
     # ivar = initialized variable
     def p_ivar(self, p):

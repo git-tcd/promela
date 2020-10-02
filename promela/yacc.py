@@ -91,9 +91,9 @@ class Parser(object):
             debuglog=debuglog,
             errorlog=errorlog)
 
-    def parse(self, promela):
+    def parse(self, promela, fic):
         """Parse string of Promela code."""
-        s = cpp(promela)
+        s = cpp(promela, fic)
         program = self.parser.parse(
             s, lexer=self.lexer.lexer, debug=self.logger, tracking=True)
         return program
@@ -907,14 +907,14 @@ class Parser(object):
         raise Exception('syntax error at: {p}'.format(p=p))
 
 
-def cpp(s):
+def cpp(code, fic):
     """Call the C{C} preprocessor with input C{s}."""
     try:
         if _platform == "darwin":
             cppprog = 'clang'
         else:
             cppprog = 'cpp'
-        p = subprocess.Popen([cppprog, '-E', '-x', 'c', '-'],
+        p = subprocess.Popen([cppprog, '-E', '-x', 'c', '-' if code else fic],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
@@ -924,8 +924,9 @@ def cpp(s):
             raise Exception('C preprocessor (cpp) not found in path.')
         else:
             raise
-    logger.debug('cpp input:\n' + s)
-    stdout, stderr = p.communicate(s)
+    if code:
+        logger.debug('cpp input:\n' + code)
+    stdout, stderr = p.communicate(code)
     logger.debug('cpp returned: {c}'.format(c=p.returncode))
     logger.debug('cpp stdout:\n {out}'.format(out=stdout))
     if p.returncode != 0:

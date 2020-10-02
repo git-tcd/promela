@@ -670,17 +670,23 @@ class Parser(object):
         p[0] = self.ast.Expression(p[1])
 
     # probe expr = no negation allowed (positive)
-    def p_pexpr(self, p):
-        """pexpr : probe
-                 | LPAREN pexpr RPAREN
-                 | pexpr LAND pexpr
+    def p_pexpr_probe(self, p):
+        """pexpr : probe"""
+        p[0] = p[1]
+
+    def p_pexpr_paren(self, p):
+        """pexpr : LPAREN pexpr RPAREN"""
+        p[0] = p[2]
+
+    def p_pexpr_logical(self, p):
+        """pexpr : pexpr LAND pexpr
                  | pexpr LAND expr
                  | expr LAND pexpr
                  | pexpr LOR pexpr
                  | pexpr LOR expr
                  | expr LOR pexpr
         """
-        p[0] = 'pexpr'
+        p[0] = self.ast.Binary(p[2], p[1], p[3])
 
     def p_probe(self, p):
         """probe : FULL LPAREN varref RPAREN
@@ -688,7 +694,7 @@ class Parser(object):
                  | EMPTY LPAREN varref RPAREN
                  | NEMPTY LPAREN varref RPAREN
         """
-        p[0] = 'probe'
+        p[0] = self.ast.Call(p[1], self.ast.Sequence([p[3]]))
 
     def p_expr_paren(self, p):
         """expr : LPAREN expr RPAREN"""

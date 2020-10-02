@@ -928,6 +928,8 @@ def cpp(s):
     stdout, stderr = p.communicate(s)
     logger.debug('cpp returned: {c}'.format(c=p.returncode))
     logger.debug('cpp stdout:\n {out}'.format(out=stdout))
+    if p.returncode != 0:
+        raise Exception('C preprocessor return code: {returncode}'.format(returncode=p.returncode))
     return stdout
 
 

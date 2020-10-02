@@ -569,12 +569,12 @@ class Parser(object):
     def p_statement_call(self, p):
         """statement : NAME LPAREN decl0 RPAREN"""
         # NAME = INAME = inline
-        c = self.ast.InlineCall(p[1], p[3])
+        c = self.ast.Call(p[1], p[3])
         p[0] = self.ast.Sequence([c])
 
     def p_statement_assgn_call(self, p):
         """statement : varref asgn NAME LPAREN decl0 RPAREN statement"""
-        inline = self.ast.InlineCall(p[3], p[5])
+        inline = self.ast.Call(p[3], p[5])
         p[0] = self.ast.Assignment(p[1], inline)
 
     def p_statement_return(self, p):

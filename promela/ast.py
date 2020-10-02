@@ -792,19 +792,13 @@ class InlineDef(Node):
         return 'inline {name} ({decl}) {{ {body} }}'.format(name = self.name, decl = ', '.join(to_str(x) for x in self.decl) if self.decl else '', body = to_str(self.body))
 
 
-class InlineCall(Node):
+class Call(Node):
     def __init__(self, name, args):
         self.name = name
         self.args = args
 
     def __str__(self):
         return '{name} ({args})'.format(name = self.name, args = ', '.join(to_str(x) for x in self.args) if self.args else '')
-
-
-class Call(Node):
-    def __init__(self, func, args):
-        self.func = func
-        self.args = args
 
 
 class Assert(Node):

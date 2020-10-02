@@ -30,6 +30,7 @@ class Lexer(object):
         'enabled': 'ENABLED',
         'eval': 'EVAL',
         'fi': 'FI',
+        'for': 'FOR',
         'full': 'FULL',
         'get_priority': 'GET_P',
         'goto': 'GOTO',
@@ -70,7 +71,7 @@ class Lexer(object):
         'W': 'WEAK_UNTIL'}
     values = {'': ''}
     delimiters = ['LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET',
-                  'LBRACE', 'RBRACE', 'COMMA', 'PERIOD',
+                  'LBRACE', 'RBRACE', 'COMMA', 'PERIODS', 'PERIOD',
                   'SEMI', 'COLONS', 'COLON', 'ELLIPSIS']
     # remember to check precedence
     operators = ['PLUS', 'INCR', 'MINUS', 'DECR', 'TIMES', 'DIVIDE',
@@ -160,6 +161,7 @@ class Lexer(object):
     t_LBRACE = r'\{'
     t_RBRACE = r'\}'
     t_COMMA = r','
+    t_PERIODS = r'\.\.'
     t_PERIOD = r'\.'
     t_SEMI = r';'
     t_COLONS = r'::'

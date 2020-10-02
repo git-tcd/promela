@@ -257,10 +257,13 @@ class LTL(object):
 
 
 class Sequence(list):
-    def __init__(self, iterable, context=None, is_option=False):
+    def __init__(self, iterable, context=None, context_for_var=None, context_for_begin=None, context_for_end=None, is_option=False):
         super(Sequence, self).__init__(iterable)
-        # "atomic" or "dstep"
+        # "for" or "atomic" or "dstep"
         self.context = context
+        self.context_for_var = context_for_var
+        self.context_for_begin = context_for_begin
+        self.context_for_end = context_for_end
         self.is_option = is_option
 
     def to_str(self):
@@ -268,20 +271,22 @@ class Sequence(list):
             return '\n'.join(to_str(x) for x in self)
         else:
             return (
-                self.context + '{\n' +
+                self.context +
+                (' (' + self.context_for_var + ' : ' + to_str (self.context_for_begin) + ' .. ' + to_str (self.context_for_end) + ') ' if self.context == 'for' else '') +
+                '{\n' +
                 '\n'.join(_indent(to_str(x)) for x in self) + '\n}\n')
 
     def __repr__(self):
         l = super(Sequence, self).__repr__()
-        return 'Sequence({l}, context={c}, is_option={isopt})'.format(
-            l=l, c=self.context, isopt=self.is_option)
+        return 'Sequence({l}, context={c}, context_for_var={cfv}, context_for_begin={cfb}, context_for_end={cfe}, is_option={isopt})'.format(
+            l=l, c=self.context, cfv=self.context_for_var, cfb=self.context_for_begin, cfe=self.context_for_end, isopt=self.is_option)
 
     def to_pg(self, g, context=None, option_guard=None, **kw):
         # set context
         if context is None:
             context = self.context
         c = context
-        assert c in {'atomic', 'd_step', None}
+        assert c in {'atomic', 'd_step', None} # TODO: 'for'
         # atomic cannot appear inside d_step
         if context == 'd_step' and c == 'atomic':
             raise Exception('atomic inside d_step')

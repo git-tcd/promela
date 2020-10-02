@@ -541,6 +541,19 @@ class Parser(object):
         """statement : ELSE"""
         p[0] = self.ast.Else()
 
+    def p_statement_for(self, p):
+        """statement : for"""
+        p[0] = p[1]
+
+    def p_for(self, p):
+        """for : FOR LPAREN NAME COLON full_expr PERIODS full_expr RPAREN LBRACE sequence os RBRACE"""
+        s = p[10]
+        s.context = 'for'
+        s.context_for_var = p[3]
+        s.context_for_begin = p[5]
+        s.context_for_end = p[7]
+        p[0] = s
+
     def p_statement_atomic(self, p):
         """statement : atomic"""
         p[0] = p[1]

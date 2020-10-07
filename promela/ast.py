@@ -896,7 +896,7 @@ class Receive(Node):
 
     def __str__(self):
         v = to_str(self.var)
-        return '{v} ? {args}'.format(v=v, args = to_str(self.args))
+        return '{v} ? {args}'.format(v=v, args = ' , '.join(to_str(x) for x in self.args))
 
 
 class Send(Node):
@@ -906,7 +906,7 @@ class Send(Node):
 
     def __str__(self):
         v = to_str(self.var)
-        return '{v} ! {args}'.format(v=v, args = to_str(self.args))
+        return '{v} ! {args}'.format(v=v, args = ' , '.join(to_str(x) for x in self.args))
 
 
 class Printf(Node):
@@ -952,7 +952,7 @@ class ReceiveExpr(Node):
 
     def __str__(self):
         v = to_str(self.var)
-        return '({v} ? [{args}])'.format(v=v, args = to_str(self.args))
+        return '({v} ? [{args}])'.format(v=v, args = ' , '.join(to_str(x) for x in self.args))
 
 class Terminal(object):
     def __init__(self, value):

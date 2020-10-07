@@ -862,15 +862,18 @@ class Parser(object):
         """rarg : varref
                 | EVAL LPAREN expr RPAREN
         """
-        p[0] = p[1] # todo: support all cases
+        # todo: support all cases
+        #       | rarg LPAREN rargs RPAREN
+        #       | LPAREN rargs RPAREN
+        p[0] = p[1]
 
-    def p_rargs(self, p):
-        """rargs : rarg
-                 | rarg COMMA rargs
-                 | rarg LPAREN rargs RPAREN
-                 | LPAREN rargs RPAREN
-        """
-        p[0] = p[1] # todo: support all cases
+    def p_rargs_iter(self, p):
+        """rargs : rarg COMMA rargs"""
+        p[0] = [p[1]] + p[3]
+
+    def p_rargs_end(self, p):
+        """rargs : rarg"""
+        p[0] = [p[1]]
 
     def p_proctype(self, p):
         """proctype : PROCTYPE

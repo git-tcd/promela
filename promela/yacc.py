@@ -302,13 +302,21 @@ class Parser(object):
         """var_list : ivar"""
         p[0] = [p[1]]
 
-    def p_var_list0_iter(self, p):
-        """var_list0 : ivar0 COMMA var_list0"""
+    def p_var_list00_iter(self, p):
+        """var_list00 : ivar0 COMMA var_list00"""
         p[0] = [p[1]] + p[3]
 
-    def p_var_list0_end(self, p):
-        """var_list0 : ivar0"""
+    def p_var_list00_end(self, p):
+        """var_list00 : ivar0"""
         p[0] = [p[1]]
+
+    def p_var_list0(self, p):
+        """var_list0 : var_list00"""
+        p[0] = p[1]
+
+    def p_var_list0_empty(self, p):
+        """var_list0 : empty"""
+        p[0] = []
 
     # TODO: vardcl asgn LBRACE c_list RBRACE
 

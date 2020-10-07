@@ -1034,6 +1034,14 @@ class RemoteRef(Terminal):
             proc=self.proctype, inst=inst, label=self.label)
 
 
+class Timeout(Node):
+    def __init__(self):
+        return
+
+    def __str__(self):
+        return 'timeout'
+
+
 def dump_graph(g, fname='a.pdf', node_label='label',
                edge_label='label', relabel=False):
     """Write the program graph, annotated with formulae, to PDF file."""

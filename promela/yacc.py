@@ -766,9 +766,12 @@ class Parser(object):
         """expr : RUN aname LPAREN decl0 RPAREN opt_priority"""
         p[0] = self.ast.Run(p[2], p[4], p[6])
 
+    def p_expr_other_1(self, p):
+        """expr : TIMEOUT"""
+        p[0] = self.ast.Timeout()
+
     def p_expr_other_2(self, p):
-        """expr : TIMEOUT
-                | NONPROGRESS
+        """expr : NONPROGRESS
                 | PC_VAL LPAREN expr RPAREN
         """
         raise NotImplementedError()

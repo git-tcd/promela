@@ -862,7 +862,8 @@ class Parser(object):
 
     # TODO: CONST, MINUS CONST %prec UMIN
     def p_rarg(self, p):
-        """rarg : varref
+        """rarg : const
+                | varref
                 | EVAL LPAREN expr RPAREN
         """
         # todo: support all cases

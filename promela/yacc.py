@@ -948,7 +948,7 @@ def cpp(code, fic):
             cppprog = 'clang'
         else:
             cppprog = 'cpp'
-        p = subprocess.Popen([cppprog, '-E', '-x', 'c', '-' if code else fic],
+        p = subprocess.Popen([cppprog, '-E', '-x', 'c', '-' if code is not None else fic], # NOTE: if code is empty, then '-' must be returned as well
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,

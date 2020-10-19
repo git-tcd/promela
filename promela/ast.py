@@ -48,7 +48,8 @@ def to_str(x):
 class Proctype(object):
     def __init__(self, name, body, args=None,
                  active=None, d_proc=False,
-                 priority=None, provided=None):
+                 priority=None, provided=None,
+                 disable_negation=False):
         self.name = name
         self.body = body
         self.args = args
@@ -60,6 +61,7 @@ class Proctype(object):
         self.active = active
         self.priority = priority
         self.provided = provided
+        self.disable_negation = disable_negation
 
     def __str__(self):
         return "Proctype('{name}')".format(name=self.name)
@@ -787,10 +789,11 @@ class Run(Node):
 
 
 class InlineDef(Node):
-    def __init__(self, name, decl, body):
+    def __init__(self, name, decl, body, disable_negation=False):
         self.name = name
         self.decl = decl
         self.body = body
+        self.disable_negation = disable_negation
 
     def __str__(self):
         return 'inline {name} ({decl}) {{ {body} }}'.format(name = self.name, decl = ', '.join(to_str(x) for x in self.decl) if self.decl else '', body = to_str(self.body))

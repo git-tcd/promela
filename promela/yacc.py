@@ -179,7 +179,7 @@ class Parser(object):
             n_active = self.ast.Integer('1')
         else:
             n_active = p[2]
-        d['active'] = n_active
+        d['active'] = int(n_active.value)
         p[0] = d
 
     def p_inactive_proctype(self, p):

@@ -54,8 +54,7 @@ class Proctype(object):
         self.args = args
         if active is None:
             active = 0
-        else:
-            active = int(active.value)
+        self.d_proc = d_proc
         if priority is not None:
             priority = int(priority.value)
         self.active = active

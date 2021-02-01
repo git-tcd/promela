@@ -87,7 +87,7 @@ class Proctype(object):
         if self.args is None:
             args = ''
         else:
-            args = '; '.join(to_str(x) for x in self.args)
+            args = '; '.join(to_str(xx) for x in self.args for xx in x)
         return args
 
     def to_pg(self, syntactic_else=False):

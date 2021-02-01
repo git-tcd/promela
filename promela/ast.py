@@ -796,8 +796,12 @@ class InlineDef(Node):
         self.disable_negation = disable_negation
 
     def __str__(self):
-        return 'inline {name} ({decl}) {{ {body} }}'.format(name = self.name, decl = ', '.join(to_str(x) for x in self.decl) if self.decl else '', body = to_str(self.body))
-
+        return ('inline {name} ({decl}) {{\n'
+                '{body}\n'
+                '}}\n\n').format(
+                    name = self.name,
+                    decl = ', '.join(to_str(x) for x in self.decl) if self.decl else '',
+                    body = _indent(to_str(self.body)))
 
 class Call(Node):
     def __init__(self, name, args):
